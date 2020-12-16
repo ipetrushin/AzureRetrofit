@@ -1,8 +1,14 @@
 package com.example.azureretrofit;
 
+import java.util.ArrayList;
+
 import retrofit2.Call;
+import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
+import retrofit2.http.Url;
+
 /*
 curl -v -X POST \
  "https://westus.api.cognitive.microsoft.com/sts/v1.0/issueToken" \
@@ -21,7 +27,12 @@ interface AzureAPI {
             "Ocp-Apim-Subscription-Key: "+key
     })
     // String - формат ответа от сервера
+    // Тип ответа - String, действие - getToken, содержание запроса - пустое (нет полей формы)
     Call<String> getToken();
 
-    // Тип ответа, действие, тип запроса
+    // TODO: используя аннотацию @GET без параметров описываем запрос для получения списка дикторов
+    // передаём адрес (@Url) и токен в заголовке (@Header)
+    // см. пример использования в документации https://square.github.io/retrofit/2.x/retrofit/retrofit2/http/Header.html
+    @GET() // TODO: учитывайте при вызове getDictors, что содержимое токена сопровождается словом Bearer
+    Call<ArrayList<Dictor>> getDictors(@Url String url, @Header("Authorization") String token);
 }
